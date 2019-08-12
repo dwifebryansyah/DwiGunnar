@@ -128,7 +128,7 @@ class KeranjangsController extends AppController
      */
     public function delete($id = null)
     {
-        //$this->request->allowMethod(['post', 'delete']);
+        //s$this->request->allowMethod(['post', 'delete']);
         $keranjang = $this->Keranjangs->get($id);
         if ($this->Keranjangs->delete($keranjang)) {
             $this->Flash->success(__('The keranjang has been deleted.'));

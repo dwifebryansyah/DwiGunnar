@@ -33,6 +33,27 @@ class OrdersController extends AppController
         $this->loadModel('Barangs');
         $this->loadModel('OrdersDetails');
         $this->loadModel('Keranjangs');
+        $this->loadModel('Categories');
+
+        // Laporan
+
+        $orders = $this->Orders->find('all')
+            ->order([
+                'code' => 'DESC'
+            ])
+            ->first();
+        //dd($order);
+
+        $od = $this->OrdersDetails->find('all')
+            ->contain([
+                'Barangs.Categories',
+                'Orders'
+            ])
+            ->where([
+                'order_id' => $orders->id
+            ]);
+
+        //dd($od->all());
 
         $order = $this->Orders->newEntity();
         
@@ -89,6 +110,8 @@ class OrdersController extends AppController
             }
             $this->Flash->error(__('The order could not be saved. Please, try again.'));
         }
+
+        $this->set(compact('od','orders'));
 
     }
 
